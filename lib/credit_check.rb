@@ -1,23 +1,22 @@
-card_number = "5541808923795240"
-bad_card = "5541801923795240"
 class CreditCheck
-    def initialize(card_number_string, limit_integer)
-        @card_number_string = card_number
-        @limit_integer = limit
-    end
+    attr_reader :card_number, :limit
 
-    def card_number(card_number_string)
-        card_number_string.to_i
-    end
-
-    def limit
-
+    def initialize(card_number, limit)
+        @card_number = card_number
+        @limit = limit
     end
 
     def last_four
+        @card_number[-4, 4]
+        # substring last 4 character by using negative index to go from right side.
     end
 
-    def is_valid(card_number)
+    def is_valid?
+        luhn_valid?(card_number)
+        # use our luhn method to determine if card number is valid
+    end
+
+    def luhn_valid?(card_number)
         valid_check = card_number.chars
                                  .map(&:to_i) # change string to array, then method chain the create new array as integers
                                  .reverse  # reverse to start from right most digit so we can double from there every other
@@ -31,9 +30,3 @@ class CreditCheck
     
 end
 
-
- 
-    
-  
-puts is_card_valid(card_number)
-puts is_card_valid(bad_card)
